@@ -19,6 +19,9 @@ return [
 		'rss_to_blog/edit' => [
 			'access' => 'admin',
 		],
+		'rss_to_blog/import' => [
+			'access' => 'admin',
+		],
 	],
 	'routes' => [
 		'add:object:rss_to_blog' => [

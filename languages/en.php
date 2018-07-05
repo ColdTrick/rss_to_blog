@@ -6,6 +6,8 @@ return [
 	'add:object:rss_to_blog' => "New RSS to Blog",
 	'edit:object:rss_to_blog' => "Edit RSS to Blog: %s",
 	
+	'rss_to_blog:sync_now' => "Sync now",
+	
 	// settings
 	'rss_to_blog:settings:proxy:title' => "RSS-feed reader settings",
 	'rss_to_blog:settings:proxy:host' => "Proxy host",
