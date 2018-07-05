@@ -29,7 +29,7 @@ echo elgg_view_field([
 	'#label' => elgg_echo('rss_to_blog:edit:target_owner_guid'),
 	'#help' => elgg_echo('rss_to_blog:edit:target_owner_guid:help'),
 	'name' => 'target_owner_guid',
-	'value' => elgg_extract('target_owner_guid', $vars),
+	'values' => elgg_extract('target_owner_guid', $vars),
 	'limit' => 1,
 	'required' => true,
 ]);
@@ -39,7 +39,7 @@ echo elgg_view_field([
 	'#label' => elgg_echo('rss_to_blog:edit:target_container_guid'),
 	'#help' => elgg_echo('rss_to_blog:edit:target_container_guid:help'),
 	'name' => 'target_container_guid',
-	'value' => elgg_extract('target_container_guid', $vars),
+	'values' => elgg_extract('target_container_guid', $vars),
 	'limit' => 1,
 ]);
 
