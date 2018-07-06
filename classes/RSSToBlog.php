@@ -202,9 +202,9 @@ class RSSToBlog extends ElggObject {
 		$blog->container_guid = $this->getTargetContainerGuid();
 		$blog->access_id = $this->getTargetAccessId();
 		
-		$blog->title = $item->get_title();
-		$blog->excerpt = $item->get_description(true);
-		$blog->description = $item->get_content();
+		$blog->title = filter_tags($item->get_title());
+		$blog->excerpt = filter_tags($item->get_description(true));
+		$blog->description = filter_tags($item->get_content());
 		
 		// tags
 		$tags = [];
@@ -212,7 +212,7 @@ class RSSToBlog extends ElggObject {
 		if (!empty($categories)) {
 			/* @var $cat SimplePie_Category */
 			foreach ($categories as $cat) {
-				$tags[] = $cat->get_label();
+				$tags[] = filter_tags($cat->get_label());
 			}
 		}
 		if ($this->target_tags) {
@@ -221,13 +221,13 @@ class RSSToBlog extends ElggObject {
 		$blog->tags = $tags;
 		
 		// rss specific values
-		$blog->rss_permalink = $item->get_permalink();
-		$blog->rss_copyright = $item->get_copyright();
+		$blog->rss_permalink = filter_tags($item->get_permalink());
+		$blog->rss_copyright = filter_tags($item->get_copyright());
 		
 		$authors = [];
 		/* @var $author SimplePie_Author */
 		foreach ($item->get_authors() as $author) {
-			$authors[] = $author->get_name();
+			$authors[] = filter_tags($author->get_name());
 		}
 		$blog->rss_authors = $authors;
 		
