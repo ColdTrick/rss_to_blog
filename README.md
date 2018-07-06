@@ -7,4 +7,14 @@ RSS to Blog
 [![Latest Stable Version](https://poser.pugx.org/coldtrick/rss_to_blog/v/stable.svg)](https://packagist.org/packages/coldtrick/rss_to_blog)
 [![License](https://poser.pugx.org/coldtrick/rss_to_blog/license.svg)](https://packagist.org/packages/coldtrick/rss_to_blog)
 
-Import an RSS-feed into blogs
+Import an RSS-feed into blogs.
+
+Features
+--------
+
+Create a RSS-feed configuration:
+
+- Configure a RSS-feed url to be imported
+- Configure the blog owner
+- Configure an optional container (eg. group)
+- Configure a refresh interval to check the RSS-feed for new content
