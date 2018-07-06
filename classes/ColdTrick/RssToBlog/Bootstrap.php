@@ -13,6 +13,7 @@ class Bootstrap extends DefaultPluginBootstrap {
 		
 		// plugin hooks
 		$hooks = $this->elgg()->hooks;
+		$hooks->registerHandler('cron', 'all', __NAMESPACE__ . '\Cron::importBlogs');
 		$hooks->registerHandler('register', 'menu:entity', __NAMESPACE__ . '\EntityMenu::rssToBlogEditLink');
 		$hooks->registerHandler('register', 'menu:entity', __NAMESPACE__ . '\EntityMenu::rssToBlogImportNow');
 		$hooks->registerHandler('register', 'menu:page', __NAMESPACE__ . '\PageMenu::registerAdmin');
