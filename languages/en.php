@@ -6,7 +6,7 @@ return [
 	'add:object:rss_to_blog' => "New RSS to Blog",
 	'edit:object:rss_to_blog' => "Edit RSS to Blog: %s",
 	
-	'rss_to_blog:sync_now' => "Sync now",
+	'rss_to_blog:last_refresh' => "Last sync",
 	
 	// settings
 	'rss_to_blog:settings:proxy:title' => "RSS-feed reader settings",
@@ -26,4 +26,8 @@ return [
 	'rss_to_blog:edit:target_access_id:group' => "Group members (if group selected)",
 	'rss_to_blog:edit:refresh_interval' => "Refresh interval",
 	'rss_to_blog:edit:refresh_interval:help' => "How often to check the RSS-feed for new content",
+	
+	// actions
+	'rss_to_blog:action:import:error' => "An error occured whil importing %s",
+	'rss_to_blog:action:import:success' => "%s resulted in %d new blogs",
 ];

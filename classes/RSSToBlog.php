@@ -2,6 +2,7 @@
 
 use ColdTrick\RssToBlog\RSSReader;
 use Elgg\Database\QueryBuilder;
+use Elgg\Export\AccessCollection;
 
 /**
  * @property string   feed_url              url to the RSS feed
@@ -10,6 +11,8 @@ use Elgg\Database\QueryBuilder;
  * @property int      target_access_id      the access_id of the blog to be created
  * @property string[] target_tags           tags for the blog to be created
  * @property string   refresh_interval      how ofter to check for new content (cron interval)
+ *
+ * @property-read int last_refresh          when was the last refresh from the RSS-feed
  */
 class RSSToBlog extends ElggObject {
 	
@@ -19,9 +22,19 @@ class RSSToBlog extends ElggObject {
 	const SUBTYPE = 'rss_to_blog';
 	
 	/**
+	 * @var string subtype of this entity
+	 */
+	const IMPORTED_RELATIONSHIP = 'imported_from';
+	
+	/**
 	 * @var int a valid container guid for creating blogs
 	 */
 	protected $validated_container_guid;
+	
+	/**
+	 * @var int a valid access_id for creating blogs
+	 */
+	protected $validated_access_id;
 	
 	/**
 	 * {@inheritDoc}
@@ -37,12 +50,25 @@ class RSSToBlog extends ElggObject {
 		$this->attributes['container_guid'] = $site->guid;
 	}
 	
+	public function getDisplayName() {
+		$title = parent::getDisplayName();
+		if (!empty($title)) {
+			return $title;
+		}
+		return $this->feed_url;
+	}
+	
 	/**
 	 * Import new RSS-feed items into blogs
 	 *
 	 * @return false|int
 	 */
 	public function import() {
+		
+		$user = get_user($this->target_owner_guid);
+		if (!$user instanceof ElggUser) {
+			return false;
+		}
 		
 		try {
 			$reader = RSSReader::factory([
@@ -53,6 +79,10 @@ class RSSToBlog extends ElggObject {
 			return false;
 		}
 		
+		// log last refresh time
+		$this->last_refresh = time();
+		
+		// init feed
 		$reader->init();
 		
 		$items = $reader->get_items();
@@ -75,10 +105,6 @@ class RSSToBlog extends ElggObject {
 		}
 		
 		// fake login
-		$user = get_user($this->target_owner_guid);
-		if (!$user instanceof ElggUser) {
-			return false;
-		}
 		$session = elgg_get_session();
 		$backup_user = $session->getLoggedInUser();
 		$session->setLoggedInUser($user);
@@ -97,7 +123,11 @@ class RSSToBlog extends ElggObject {
 		}
 		
 		// restore login
-		$session->setLoggedInUser($backup_user);
+		if ($backup_user instanceof ElggUser) {
+			$session->setLoggedInUser($backup_user);
+		} else {
+			$session->removeLoggedInUser();
+		}
 		
 		return $count;
 	}
@@ -111,28 +141,36 @@ class RSSToBlog extends ElggObject {
 	 */
 	protected function findNewPermalinks(array $feed_permalinks) {
 		
-		$already_imported = elgg_get_entities([
-			'type' => 'object',
-			'subtype' => 'blog',
-			'owner_guid' => $this->target_owner_guid,
-			'container_guid' => $this->target_container_guid ?: $this->target_owner_guid,
-			'metadata_name_value_pairs' => [
-				[
-					'name' => 'rss_permalink',
-					'value' => $feed_permalinks,
+		$owner_guid = $this->target_owner_guid;
+		$container_guid = $this->getTargetContainerGuid();
+		
+		$already_imported = elgg_call(ELGG_IGNORE_ACCESS, function() use ($feed_permalinks, $owner_guid, $container_guid) {
+			return elgg_get_entities([
+				'type' => 'object',
+				'subtype' => 'blog',
+				'owner_guid' => $owner_guid,
+				'container_guid' => $container_guid,
+				'metadata_name_value_pairs' => [
+					[
+						'name' => 'rss_permalink',
+						'value' => $feed_permalinks,
+					],
 				],
-			],
-			'selects' => [
-				function (QueryBuilder $qb, $main_alias) {
-					$join_alias = $qb->joinMetadataTable($main_alias, 'guid', 'rss_permalink', 'inner', 'feed');
-					return "{$join_alias}.value AS permalink";
-				},
-			],
-			'limit' => false,
-			'callback' => function ($row) {
-				return [(int) $row->guid, $row->permalink];
-			}
-		]);
+				'selects' => [
+					function (QueryBuilder $qb, $main_alias) {
+						$join_alias = $qb->joinMetadataTable($main_alias, 'guid', 'rss_permalink', 'inner', 'feed');
+						return "{$join_alias}.value AS permalink";
+					},
+				],
+				'limit' => false,
+				'callback' => function ($row) {
+					return [
+						'guid' => (int) $row->guid,
+						'permalink' => $row->permalink,
+					];
+				}
+			]);
+		});
 		
 		if (empty($already_imported)) {
 			return $feed_permalinks;
@@ -162,15 +200,92 @@ class RSSToBlog extends ElggObject {
 		$blog = new ElggBlog();
 		$blog->owner_guid = $this->target_owner_guid;
 		$blog->container_guid = $this->getTargetContainerGuid();
-		$blog->access_id = ACCESS_PUBLIC;
+		$blog->access_id = $this->getTargetAccessId();
 		
 		$blog->title = $item->get_title();
 		$blog->excerpt = $item->get_description(true);
 		$blog->description = $item->get_content();
 		
-		$blog->rss_permalink = $item->get_permalink();
+		// tags
+		$tags = [];
+		$categories = $item->get_categories();
+		if (!empty($categories)) {
+			/* @var $cat SimplePie_Category */
+			foreach ($categories as $cat) {
+				$tags[] = $cat->get_label();
+			}
+		}
+		if ($this->target_tags) {
+			$tags = array_merge($tags, (array) $this->target_tags);
+		}
+		$blog->tags = $tags;
 		
-		return (bool) $blog->save();
+		// rss specific values
+		$blog->rss_permalink = $item->get_permalink();
+		$blog->rss_copyright = $item->get_copyright();
+		
+		$authors = [];
+		/* @var $author SimplePie_Author */
+		foreach ($item->get_authors() as $author) {
+			$authors[] = $author->get_name();
+		}
+		$blog->rss_authors = $authors;
+		
+		// save blog
+		$result = (bool) $blog->save();
+		if (!$result) {
+			return $result;
+		}
+		
+		// icon, only after save, need a guid for icon location
+		$enclosures = $item->get_enclosures();
+		if (!empty($enclosures)) {
+			$images = [];
+			/* @var $enclosure SimplePie_Enclosure */
+			foreach ($enclosures as $enclosure) {
+				if (stripos($enclosure->get_type(), 'image') === false) {
+					continue;
+				}
+				
+				$images[] = [
+					'length' => (int) $enclosure->get_length(),
+					'url' => $enclosure->get_link(),
+				];
+			}
+			
+			$max_length = -1;
+			$image_url = false;
+			foreach ($images as $image) {
+				if ($image['length'] < $max_length) {
+					continue;
+				}
+				$max_length = $image['length'];
+				$image_url = $image['url'];
+			}
+			
+			if (!empty($image_url)) {
+				$image_content = @file_get_contents($image_url);
+				if (!empty($image_content)) {
+					$temp = new ElggTempFile();
+					$temp->open('write');
+					$temp->write($image_content);
+					$temp->close();
+					
+					$blog->saveIconFromElggFile($temp);
+				}
+			}
+		}
+		
+		// link items
+		$blog->addRelationship($this->guid, self::IMPORTED_RELATIONSHIP);
+		
+		// let others know about the import
+		elgg_trigger_event('import', 'rss_to_blog', [
+			'rss_item' => $item,
+			'entity' => $blog,
+		]);
+		
+		return $result;
 	}
 	
 	/**
@@ -185,7 +300,10 @@ class RSSToBlog extends ElggObject {
 		}
 		
 		if (!empty($this->target_container_guid)) {
-			$entity = get_entity($this->target_container_guid);
+			$container_guid = $this->target_container_guid;
+			$entity = elgg_call(ELGG_IGNORE_ACCESS, function () use ($container_guid) {
+				return get_entity($container_guid);
+			});
 			if ($entity instanceof ElggGroup) {
 				$this->validated_container_guid = $entity->guid;
 			}
@@ -197,5 +315,36 @@ class RSSToBlog extends ElggObject {
 		}
 		
 		return $this->validated_container_guid;
+	}
+	
+	/**
+	 * Get a validated access_id for creating blogs
+	 *
+	 * @return int
+	 */
+	protected function getTargetAccessId() {
+		
+		if (isset($this->validated_access_id)) {
+			return $this->validated_access_id;
+		}
+		
+		$access_id = $this->target_access_id;
+		if ($access_id === RSS_TO_BLOG_ACCESS_GROUP) {
+			$container_guid = $this->getTargetContainerGuid();
+			$access_id = elgg_call(ELGG_IGNORE_ACCESS, function () use ($container_guid) {
+				$container = get_entity($container_guid);
+				if ($container instanceof ElggGroup) {
+					$acl = $container->getOwnedAccessCollection('group_acl');
+					if ($acl instanceof AccessCollection) {
+						return $acl->id;
+					}
+				}
+				return ACCESS_LOGGED_IN;
+			});
+		}
+		
+		$this->validated_access_id = $access_id;
+		
+		return $this->validated_access_id;
 	}
 }
