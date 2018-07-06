@@ -57,7 +57,7 @@ namespace ColdTrick\RssToBlog\SimplePie;
  * @subpackage HTTP
  * @todo Move to properly supporting RFC2616 (HTTP/1.1)
  */
-class File
+class File extends \SimplePie_File
 {
 	var $url;
 	var $useragent;
