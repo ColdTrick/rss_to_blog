@@ -212,6 +212,8 @@ class RSSToBlog extends ElggObject {
 		$blog->excerpt = filter_tags($item->get_description(true));
 		$blog->description = filter_tags($item->get_content());
 		
+		$blog->status = 'published';
+		
 		// tags
 		$tags = [];
 		$categories = $item->get_categories();
