@@ -11,6 +11,7 @@ if (elgg_extract('full_view', $vars, false)) {
 	
 	$params = [
 		'entity' => $entity,
+		'title' => $entity->getDisplayName(),
 		'icon' => false,
 		'byline' => false,
 		'access' => false,
