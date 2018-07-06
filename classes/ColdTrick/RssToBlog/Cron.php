@@ -33,6 +33,11 @@ class Cron {
 		
 		elgg_call(ELGG_IGNORE_ACCESS, function() use ($interval) {
 			
+			// prevent notifications
+			elgg_register_plugin_hook_handler('enqueue', 'notification', __NAMESPACE__ . '\Notifications::preventBlogEnqueue');
+			elgg_register_plugin_hook_handler('send:before', 'notifications', __NAMESPACE__ . '\Notifications::preventBlogSendBefore');
+			
+			// get feeds
 			$feeds = elgg_get_entities([
 				'type' => 'object',
 				'subtype' => \RSSToBlog::SUBTYPE,
@@ -51,6 +56,10 @@ class Cron {
 			foreach ($feeds as $feed) {
 				$count += (int) $feed->import();
 			}
+			
+			// restore notifications
+			elgg_unregister_plugin_hook_handler('enqueue', 'notification', __NAMESPACE__ . '\Notifications::preventBlogEnqueue');
+			elgg_unregister_plugin_hook_handler('send:before', 'notifications', __NAMESPACE__ . '\Notifications::preventBlogSendBefore');
 			
 			echo "RSS-to-Blog imported {$count} blogs" . PHP_EOL;
 			elgg_log("RSS-to-Blog imported {$count} blogs", 'NOTICE');
