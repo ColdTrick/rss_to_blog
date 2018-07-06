@@ -3,6 +3,7 @@
 use ColdTrick\RssToBlog\RSSReader;
 use Elgg\Database\QueryBuilder;
 use Elgg\Export\AccessCollection;
+use Elgg\Values;
 
 /**
  * @property string   feed_url              url to the RSS feed
@@ -201,6 +202,11 @@ class RSSToBlog extends ElggObject {
 		$blog->owner_guid = $this->target_owner_guid;
 		$blog->container_guid = $this->getTargetContainerGuid();
 		$blog->access_id = $this->getTargetAccessId();
+		
+		$created = $item->get_date('U'); // unix time
+		if (!empty($created)) {
+			$blog->time_created = Values::normalizeTimestamp($created);
+		}
 		
 		$blog->title = filter_tags($item->get_title());
 		$blog->excerpt = filter_tags($item->get_description(true));
