@@ -20,7 +20,7 @@ class PageMenu {
 		$return = $hook->getValue();
 		
 		$return[] = \ElggMenuItem::factory([
-			'name' => 'rss_to_blog',
+			'name' => 'configure_utilities:rss_to_blog',
 			'text' => elgg_echo('admin:configure_utilities:rss_to_blog'),
 			'href' => 'admin/configure_utilities/rss_to_blog',
 			'section' => 'configure',
