@@ -18,7 +18,7 @@ return [
 	// edit form
 	'rss_to_blog:edit:feed_url' => "RSS-feed URL",
 	'rss_to_blog:edit:target_owner_guid' => "Blog owner",
-	'rss_to_blog:edit:target_owner_guid:help' => "Serch for a user who will own the imported blogs",
+	'rss_to_blog:edit:target_owner_guid:help' => "Search for a user who will own the imported blogs",
 	'rss_to_blog:edit:target_container_guid' => "Blog container",
 	'rss_to_blog:edit:target_container_guid:help' => "Leave empty to use the blog owner, or find a group and select it from the list",
 	'rss_to_blog:edit:target_tags' => "Additional tags for the blog",
