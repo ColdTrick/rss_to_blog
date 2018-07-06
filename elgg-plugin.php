@@ -40,5 +40,13 @@ return [
 				AdminGatekeeper::class,
 			],
 		],
+		'inspect:object:rss_to_blog' => [
+			'path' => 'rss_to_blog/inspect/{guid}',
+			'resource' => 'rss_to_blog/inspect',
+			'middleware' => [
+				AjaxGatekeeper::class,
+				AdminGatekeeper::class,
+			],
+		],
 	],
 ];

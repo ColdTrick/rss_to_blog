@@ -5,8 +5,11 @@ return [
 	'admin:configure_utilities:rss_to_blog' => "RSS to Blog",
 	'add:object:rss_to_blog' => "New RSS to Blog",
 	'edit:object:rss_to_blog' => "Edit RSS to Blog: %s",
+	'inspect:object:rss_to_blog' => "Inspect RSS to Blog: %s",
 	
 	'rss_to_blog:last_refresh' => "Last sync",
+	'rss_to_blog:inspect' => "Inspect RSS-feed",
+	'rss_to_blog:inspect:unable_to_parse' => "Unable to display RSS-feed output (may not be a problem during import)",
 	
 	// settings
 	'rss_to_blog:settings:proxy:title' => "RSS-feed reader settings",
