@@ -44,7 +44,7 @@ class RSSReader {
 		}
 		
 		// check for proxy settings
-		$proxy_host = elgg_get_plugin_setting('proxy_host', 'proxy_host');
+		$proxy_host = elgg_get_plugin_setting('proxy_host', 'rss_to_blog');
 		$disable_ssl = (bool) elgg_get_plugin_setting('proxy_disable_ssl_verify', 'rss_to_blog');
 		if (!empty($proxy_host) || $disable_ssl) {
 			$reader->set_file_class(File::class);
