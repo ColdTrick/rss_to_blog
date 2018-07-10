@@ -229,8 +229,33 @@ class RSSToBlog extends ElggObject {
 		$blog->tags = $tags;
 		
 		// rss specific values
+		// permalink
 		$blog->rss_permalink = filter_tags($item->get_permalink());
-		$blog->rss_copyright = filter_tags($item->get_copyright());
+		
+		// copyrights
+		$copyright = $item->get_copyright();
+		if (empty($copyright)) {
+			$copyright = $item->get_feed()->get_copyright();
+		}
+		if (!empty($copyright)) {
+			$blog->rss_copyright = filter_tags($copyright);
+		}
+		
+		// source title
+		$source_title = false;
+		
+		$source = $item->get_source();
+		if ($source instanceof \SimplePie_Source) {
+			$source_title = $source->get_title();
+		}
+		
+		if (empty($source_title)) {
+			$source_title = $item->get_feed()->get_title();
+		}
+		
+		if (!empty($source_title)) {
+			$blog->rss_source_title = $source_title;
+		}
 		
 		$authors = [];
 		/* @var $author SimplePie_Author */
