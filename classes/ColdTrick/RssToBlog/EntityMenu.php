@@ -61,6 +61,10 @@ class EntityMenu {
 			'href' => elgg_generate_action_url('rss_to_blog/import', [
 				'guid' => $entity->guid,
 			]),
+			'deps' => [
+				'elgg/spinner',
+			],
+			'onClick' => '(function() {var spinner = require("elgg/spinner"); spinner.start(); return true;})();',
 		]);
 		
 		return $return;
