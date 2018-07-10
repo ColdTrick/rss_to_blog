@@ -209,7 +209,7 @@ class RSSToBlog extends ElggObject {
 		}
 		
 		$blog->title = filter_tags($item->get_title());
-		$blog->excerpt = filter_tags($item->get_description(true));
+		$blog->excerpt = elgg_get_excerpt($item->get_description(true));
 		$blog->description = filter_tags($item->get_content());
 		
 		$blog->status = 'published';
