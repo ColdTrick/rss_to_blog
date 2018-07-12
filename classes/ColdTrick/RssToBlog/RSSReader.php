@@ -3,6 +3,8 @@
 namespace ColdTrick\RssToBlog;
 
 use ColdTrick\RssToBlog\SimplePie\File;
+use Elgg\Values;
+use Elgg\Project\Paths;
 
 class RSSReader {
 	
@@ -19,6 +21,7 @@ class RSSReader {
 		$defaults = [
 			'timeout' => 5,
 			'cache_location' => elgg_get_cache_path() . 'simplepie' . DIRECTORY_SEPARATOR,
+			'enable_cache' => true,
 		];
 		$params = array_merge($defaults, $params);
 		
@@ -38,7 +41,23 @@ class RSSReader {
 					$reader->set_timeout((int) $value);
 					break;
 				case 'cache_location':
+					
+					$value = Paths::sanitize($value);
+					if (empty($value)) {
+						break;
+					}
+					if (!is_dir($value)) {
+						// make sure cache dir is availble
+						if (!mkdir($value, 0755, true)) {
+							// unable to create dir
+							break;
+						}
+					}
+					
 					$reader->set_cache_location($value);
+					break;
+				case 'enable_cache':
+					$reader->enable_cache($value);
 					break;
 			}
 		}
