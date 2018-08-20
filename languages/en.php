@@ -27,6 +27,7 @@ return [
 	'rss_to_blog:edit:target_tags' => "Additional tags for the blog",
 	'rss_to_blog:edit:target_access_id' => "Blog access level",
 	'rss_to_blog:edit:target_access_id:group' => "Group members (if group selected)",
+	'rss_to_blog:edit:target_comments_on' => "Allow comments on the blog",
 	'rss_to_blog:edit:refresh_interval' => "Refresh interval",
 	'rss_to_blog:edit:refresh_interval:help' => "How often to check the RSS-feed for new content",
 	

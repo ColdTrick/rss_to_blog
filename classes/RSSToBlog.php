@@ -11,6 +11,7 @@ use Elgg\Values;
  * @property int      target_container_guid the container guid of the blog to be created
  * @property int      target_access_id      the access_id of the blog to be created
  * @property string[] target_tags           tags for the blog to be created
+ * @property string   target_comments_on    are comments enabled for the created blog
  * @property string   refresh_interval      how ofter to check for new content (cron interval)
  *
  * @property-read int last_refresh          when was the last refresh from the RSS-feed
@@ -213,6 +214,10 @@ class RSSToBlog extends ElggObject {
 		$blog->description = filter_tags($item->get_content());
 		
 		$blog->status = 'published';
+		
+		if ($this->target_comments_on) {
+			$blog->comments_on = $this->target_comments_on;
+		}
 		
 		// tags
 		$tags = [];

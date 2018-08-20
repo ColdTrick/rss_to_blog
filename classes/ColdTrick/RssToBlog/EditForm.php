@@ -22,6 +22,7 @@ class EditForm {
 			'target_container_guid' => 0,
 			'target_access_id' => ACCESS_LOGGED_IN,
 			'target_tags' => [],
+			'target_comments_on' => 'On',
 			'refresh_interval' => 'hourly',
 		];
 		

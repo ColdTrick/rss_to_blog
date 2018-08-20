@@ -51,6 +51,16 @@ echo elgg_view_field([
 ]);
 
 echo elgg_view_field([
+	'#type' => 'checkbox',
+	'#label' => elgg_echo('rss_to_blog:edit:target_comments_on'),
+	'name' => 'target_comments_on',
+	'default' => 'Off',
+	'value' => 'On',
+	'checked' => elgg_extract('target_comments_on', $vars) === 'On',
+	'switch' => true,
+]);
+
+echo elgg_view_field([
 	'#type' => 'access',
 	'#label' => elgg_echo('rss_to_blog:edit:target_access_id'),
 	'name' => 'target_access_id',

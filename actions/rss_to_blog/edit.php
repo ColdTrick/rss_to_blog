@@ -9,6 +9,7 @@ $target_owner_guid = (array) get_input('target_owner_guid');
 $target_container_guid = (array) get_input('target_container_guid');
 $target_tags = string_to_tag_array(get_input('target_tags'));
 $target_access_id = (int) get_input('target_access_id');
+$comments_on = get_input('target_comments_on');
 $refresh_interval = get_input('refresh_interval');
 
 if (empty($feed_url) || empty($target_owner_guid) || empty($target_access_id) || empty($refresh_interval)) {
@@ -34,6 +35,7 @@ if (!empty($target_container_guid)) {
 }
 $entity->target_tags = $target_tags;
 $entity->target_access_id = $target_access_id;
+$entity->target_comments_on = $comments_on;
 $entity->refresh_interval = $refresh_interval;
 
 if (!$entity->save()) {

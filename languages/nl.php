@@ -24,6 +24,7 @@ return [
 	'rss_to_blog:edit:target_tags' => "Extra tags voor de blog",
 	'rss_to_blog:edit:target_access_id' => "Blog toegangsniveau",
 	'rss_to_blog:edit:target_access_id:group' => "Groepsleden (indien er een groep is geselecteerd)",
+	'rss_to_blog:edit:target_comments_on' => "Reacties op de blog toestaan",
 	'rss_to_blog:edit:refresh_interval' => "Verversingsinterval",
 	'rss_to_blog:edit:refresh_interval:help' => "Hoe vaak moet de RSS-feed worden gecontroleerd op nieuwe content",
 	
