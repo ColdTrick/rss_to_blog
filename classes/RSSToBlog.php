@@ -263,9 +263,12 @@ class RSSToBlog extends ElggObject {
 		}
 		
 		$authors = [];
-		/* @var $author SimplePie_Author */
-		foreach ($item->get_authors() as $author) {
-			$authors[] = filter_tags($author->get_name());
+		$item_authors = $item->get_authors();
+		if (is_array($item_authors)) {
+			/* @var $author SimplePie_Author */
+			foreach ($item->get_authors() as $author) {
+				$authors[] = filter_tags($author->get_name());
+			}
 		}
 		$blog->rss_authors = $authors;
 		
