@@ -2,6 +2,9 @@
 
 return [
 	
+	'item:object:rss_to_blog' => "RSS to Blog config",
+	'collection:object:rss_to_blog' => "RSS to Blog configs",
+	
 	'admin:configure_utilities:rss_to_blog' => "RSS to Blog",
 	'add:object:rss_to_blog' => "New RSS to Blog",
 	'edit:object:rss_to_blog' => "Edit RSS to Blog: %s",
