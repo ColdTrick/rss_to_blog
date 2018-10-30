@@ -11,9 +11,6 @@ class Bootstrap extends DefaultPluginBootstrap {
 	 */
 	public function init() {
 		
-		// views
-		elgg_extend_view('object/elements/imprint/contents', 'rss_to_blog/imprint/copyright');
-		
 		// plugin hooks
 		$hooks = $this->elgg()->hooks;
 		$hooks->registerHandler('cron', 'all', __NAMESPACE__ . '\Cron::importBlogs');
@@ -21,5 +18,6 @@ class Bootstrap extends DefaultPluginBootstrap {
 		$hooks->registerHandler('register', 'menu:entity', __NAMESPACE__ . '\EntityMenu::rssToBlogImportNow');
 		$hooks->registerHandler('register', 'menu:entity', __NAMESPACE__ . '\EntityMenu::rssToBlogRawData');
 		$hooks->registerHandler('register', 'menu:page', __NAMESPACE__ . '\PageMenu::registerAdmin');
+		$hooks->registerHandler('view_vars', 'object/elements/imprint/contents', __NAMESPACE__ . '\Views::addRssImprint');
 	}
 }
