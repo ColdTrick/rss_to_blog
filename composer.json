@@ -10,7 +10,7 @@
 	},
 	"require": {
 		"composer/installers": "^1.0.8",
-		"simplepie/simplepie": "~1.3.1"
+		"simplepie/simplepie": "~1.5.0"
 	},
 	"require-dev": {
 		"coldtrick/sniffs": "dev-master",

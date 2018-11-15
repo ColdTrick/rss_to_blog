@@ -2,8 +2,6 @@
 
 namespace ColdTrick\RssToBlog;
 
-use ColdTrick\RssToBlog\SimplePie\File;
-use Elgg\Values;
 use Elgg\Project\Paths;
 
 class RSSReader {
@@ -63,11 +61,22 @@ class RSSReader {
 		}
 		
 		// check for proxy settings
+		$curl_options = [];
 		$proxy_host = elgg_get_plugin_setting('proxy_host', 'rss_to_blog');
-		$disable_ssl = (bool) elgg_get_plugin_setting('proxy_disable_ssl_verify', 'rss_to_blog');
-		if (!empty($proxy_host) || $disable_ssl) {
-			$reader->set_file_class(File::class);
+		if (!empty($proxy_host)) {
+			$curl_options[CURLOPT_PROXY] = $proxy_host;
 		}
+		$proxy_port = (int) elgg_get_plugin_setting('proxy_port', 'rss_to_blog');
+		if (!empty($proxy_port)) {
+			$curl_options[CURLOPT_PROXYPORT] = $proxy_port;
+		}
+		$disable_ssl = (bool) elgg_get_plugin_setting('proxy_disable_ssl_verify', 'rss_to_blog');
+		if ($disable_ssl) {
+			$curl_options[CURLOPT_SSL_VERIFYPEER] = false;
+		}
+		
+		// set additional curl options
+		$reader->set_curl_options($curl_options);
 		
 		return $reader;
 	}
