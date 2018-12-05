@@ -32,7 +32,7 @@ $layout = elgg_view_layout('default', [
 	'title' => $title,
 	'content' => $content,
 	'sidebar' => elgg_view('blog/sidebar', [
-		'page' => 'group',
+		'page' => $filter,
 		'entity' => $group,
 	]),
 	'filter_id' => 'blog/group',

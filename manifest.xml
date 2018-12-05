@@ -20,6 +20,11 @@
 		<type>plugin</type>
 		<name>blog</name>
 	</requires>
+	<requires>
+		<type>priority</type>
+		<plugin>blog</plugin>
+		<priority>after</priority>
+	</requires>
 	
 	<category>ColdTrick</category>
 </plugin_manifest>

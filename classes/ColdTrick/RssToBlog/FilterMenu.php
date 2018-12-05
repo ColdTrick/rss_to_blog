@@ -22,6 +22,7 @@ class FilterMenu {
 		/* @var $result MenuItems */
 		$result = $hook->getValue();
 		$page_owner = elgg_get_page_owner_entity();
+		$selected = $hook->getParam('filter_value', $hook->getParam('selected'));
 		
 		$section = 'all';
 		$route_params = [];
@@ -30,16 +31,16 @@ class FilterMenu {
 			$route_params['guid'] = $page_owner->guid;
 			
 			// blog tools adds potential all link
-			if (!$result->has('collection:object:blog:group')) {
-				// add link to all blogs
-				$result[] = \ElggMenuItem::factory([
-					'name' => 'collection:object:blog:group',
-					'text' => elgg_echo('collection:object:blog'),
-					'href' => elgg_generate_url('collection:object:blog:group', [
-						'guid' => $page_owner->guid,
-					]),
-					'priority' => 200,
-				]);
+			$result->remove('collection:object:blog:group');
+		} elseif(is_array($result)) {
+			// @var $menu_item \ElggMenuItem */
+			foreach ($result as $index => $menu_item) {
+				if ($menu_item->getName() !== 'all') {
+					continue;
+				}
+				
+				unset($result[$index]);
+				break;
 			}
 		}
 		
@@ -48,12 +49,14 @@ class FilterMenu {
 			'text' => elgg_echo('rss_to_blog:menu:filter:internal'),
 			'href' => elgg_generate_url("collection:object:blog:{$section}:internal", $route_params),
 			'priority' => 210,
+			'selected' => $selected === 'internal',
 		]);
 		$result[] = \ElggMenuItem::factory([
 			'name' => 'external',
 			'text' => elgg_echo('rss_to_blog:menu:filter:external'),
 			'href' => elgg_generate_url("collection:object:blog:{$section}:external", $route_params),
 			'priority' => 220,
+			'selected' => $selected === 'external',
 		]);
 		
 		return $result;

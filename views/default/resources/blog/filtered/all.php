@@ -26,7 +26,7 @@ $content = elgg_view("blog/listing/{$filter}", [
 $layout = elgg_view_layout('default', [
 	'title' => $title,
 	'content' => $content,
-	'sidebar' => elgg_view('blog/sidebar', ['page' => 'all']),
+	'sidebar' => elgg_view('blog/sidebar', ['page' => $filter]),
 	'filter_value' => $filter,
 ]);
 
