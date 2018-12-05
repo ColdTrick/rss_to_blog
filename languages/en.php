@@ -5,6 +5,11 @@ return [
 	'item:object:rss_to_blog' => "RSS to Blog config",
 	'collection:object:rss_to_blog' => "RSS to Blog configs",
 	
+	'collection:object:blog:all:internal' => "Internal blogs",
+	'collection:object:blog:all:external' => "External blogs",
+	'collection:object:blog:group:internal' => "Internal group blogs",
+	'collection:object:blog:group:external' => "External group blogs",
+	
 	'admin:configure_utilities:rss_to_blog' => "RSS to Blog",
 	'add:object:rss_to_blog' => "New RSS to Blog",
 	'edit:object:rss_to_blog' => "Edit RSS to Blog: %s",
@@ -14,7 +19,13 @@ return [
 	'rss_to_blog:inspect' => "Inspect RSS-feed",
 	'rss_to_blog:inspect:unable_to_parse' => "Unable to display RSS-feed output (may not be a problem during import)",
 	
+	// menu
+	'rss_to_blog:menu:filter:internal' => "Internal",
+	'rss_to_blog:menu:filter:external' => "External",
+	
 	// settings
+	'rss_to_blog:settings:split_blogs' => "Add tabs to blog listings to only show internal / external blogs",
+	'rss_to_blog:settings:split_blogs:help' => "If enabled two tabs will be added to the blog listing pages to be able to only show internal or external blogs.",
 	'rss_to_blog:settings:proxy:title' => "RSS-feed reader settings",
 	'rss_to_blog:settings:proxy:host' => "Proxy host",
 	'rss_to_blog:settings:proxy:port' => "Proxy portnumber",

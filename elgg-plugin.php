@@ -48,5 +48,52 @@ return [
 				AdminGatekeeper::class,
 			],
 		],
+		'collection:object:blog:all:internal' => [
+			'path' => 'blog/internal/{lower?}/{upper?}',
+			'resource' => 'blog/filtered/all',
+			'defaults' => [
+				'filter' => 'internal',
+			],
+			'requirements' => [
+				'lower' => '\d+',
+				'upper' => '\d+',
+			],
+		],
+		'collection:object:blog:all:external' => [
+			'path' => 'blog/external/{lower?}/{upper?}',
+			'resource' => 'blog/filtered/all',
+			'defaults' => [
+				'filter' => 'external',
+			],
+			'requirements' => [
+				'lower' => '\d+',
+				'upper' => '\d+',
+			],
+		],
+		'collection:object:blog:group:internal' => [
+			'path' => 'blog/group/{guid}/internal/{lower?}/{upper?}',
+			'resource' => 'blog/filtered/group',
+			'defaults' => [
+				'filter' => 'internal',
+			],
+			'requirements' => [
+				'lower' => '\d+',
+				'upper' => '\d+',
+			],
+		],
+		'collection:object:blog:group:external' => [
+			'path' => 'blog/group/{guid}/external/{lower?}/{upper?}',
+			'resource' => 'blog/filtered/group',
+			'defaults' => [
+				'filter' => 'external',
+			],
+			'requirements' => [
+				'lower' => '\d+',
+				'upper' => '\d+',
+			],
+		],
+	],
+	'settings' => [
+		'split_blogs' => 0,
 	],
 ];
