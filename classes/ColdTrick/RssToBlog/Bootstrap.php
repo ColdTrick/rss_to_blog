@@ -24,6 +24,7 @@ class Bootstrap extends DefaultPluginBootstrap {
 		$hooks->registerHandler('register', 'menu:filter:blog/group', __NAMESPACE__ . '\FilterMenu::addTabs');
 		$hooks->registerHandler('register', 'menu:page', __NAMESPACE__ . '\PageMenu::registerAdmin');
 		$hooks->registerHandler('view_vars', 'object/elements/imprint/contents', __NAMESPACE__ . '\Views::addRssImprint');
+		$hooks->registerHandler('view_vars', 'resources/blog/filtered/group', __NAMESPACE__ . '\Views::validateGroupInternalPage');
 	}
 	
 	protected function rewriteRoutes() {

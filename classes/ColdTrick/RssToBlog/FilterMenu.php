@@ -27,6 +27,19 @@ class FilterMenu {
 		$section = 'all';
 		$route_params = [];
 		if ($page_owner instanceof \ElggGroup) {
+			// check if the group has external blogs
+			$count = elgg_get_entities([
+				'type' => 'object',
+				'subtype' => 'blog',
+				'container_guid' => $page_owner->guid,
+				'count' => true,
+				'metadata_name' => 'rss_permalink',
+			]);
+			if (empty($count)) {
+				// no need to split
+				return;
+			}
+			
 			$section = 'group';
 			$route_params['guid'] = $page_owner->guid;
 			

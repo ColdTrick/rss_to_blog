@@ -47,4 +47,46 @@ class Views {
 		
 		return $vars;
 	}
+	
+	/**
+	 * Make sure we want to view internal blogs for a group
+	 *
+	 * If group has no external blogs render default group listing
+	 *
+	 * @param \Elgg\Hook $hook 'view_vars', 'resources/blog/filtered/group'
+	 *
+	 * @return void|array
+	 */
+	public static function validateGroupInternalPage(\Elgg\Hook $hook) {
+		$vars = $hook->getValue();
+		
+		$group_guid = (int) elgg_extract('guid', $vars, elgg_extract('group_guid', $vars)); // group_guid for BC
+		$filter = elgg_extract('filter', $vars);
+		$route = elgg_extract('_route', $vars);
+		if (empty($group_guid) || $route !== 'collection:object:blog:group' || $filter !== 'internal') {
+			return;
+		}
+		
+		$group = get_entity($group_guid);
+		if (!$group instanceof \ElggGroup) {
+			return;
+		}
+		
+		$count = elgg_get_entities([
+			'type' => 'object',
+			'subtype' => 'blog',
+			'container_guid' => $group->guid,
+			'count' => true,
+			'metadata_name' => 'rss_permalink',
+		]);
+		if (!empty($count)) {
+			// need to split
+			return;
+		}
+		
+		// render default group listing
+		$vars[\Elgg\ViewsService::OUTPUT_KEY] = elgg_view_resource('blog/group', $vars);
+		
+		return $vars;
+	}
 }
