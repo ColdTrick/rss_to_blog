@@ -255,11 +255,20 @@ class RSSToBlog extends ElggObject {
 		}
 		
 		if (empty($source_title)) {
-			$source_title = $item->get_feed()->get_title();
+			$source_tags = $item->get_item_tags(SIMPLEPIE_NAMESPACE_RSS_20, 'source');
+			if (!empty($source_tags)) {
+				$source_title = $item->sanitize($source_tags[0]['data'], SIMPLEPIE_CONSTRUCT_TEXT);
+			}
 		}
 		
 		if (!empty($source_title)) {
 			$blog->rss_source_title = $source_title;
+		}
+		
+		// feed title
+		$feed_title = $item->get_feed()->get_title();;
+		if (empty($feed_title)) {
+			$blog->rss_feed_title;
 		}
 		
 		$authors = [];

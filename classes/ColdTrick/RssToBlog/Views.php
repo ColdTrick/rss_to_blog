@@ -19,7 +19,7 @@ class Views {
 			return;
 		}
 		
-		if (empty($entity->rss_copyright) && empty($entity->rss_source_title)) {
+		if (empty($entity->rss_copyright) && empty($entity->rss_source_title) && empty($entity->rss_feed_title)) {
 			// no copyright info available
 			return;
 		}
@@ -27,8 +27,15 @@ class Views {
 		$icon = 'copyright';
 		$text = $entity->rss_copyright;
 		if (empty($text)) {
+			// fallback to source
 			$icon = 'link';
 			$text = $entity->rss_source_title;
+		}
+		
+		if (empty($text)) {
+			// fallback to feed title
+			$icon = 'link';
+			$text = $entity->rss_feed_title;
 		}
 		
 		$link = elgg_view('output/url', [
