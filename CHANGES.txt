@@ -1,2 +1,26 @@
 Version history
 ===============
+
+1.0 (2019-03-27):
+
+- added: basic import features
+- added: basic plugin structure
+- added: copyright in imprint
+- added: create/edit of rss import config
+- added: cron handler
+- added: inspect rss-feed option
+- added: more import features
+- added: option to add filter tabs for internal/external blogs
+- added: option to disable caching
+- added: option to disable comments on imported blogs
+- added: proxy support
+- added: sanitisation of rss-feed content
+- changed: copyright import fallback
+- changed: moved imprint to view_vars hook
+- changed: only split internal/external blogs for group if external exist
+- changed: updated to newer version of SimplePie rss reader
+- changed: use RSS-feed published time for blog creation time
+- fixed: blogs are default published
+- fixed: conflicting menu item name
+- fixed: PHP notice when no RSS item authors
+- fixed: unable to load custom File class
