@@ -2,7 +2,7 @@
 
 namespace ColdTrick\RssToBlog;
 
-use ColdTrick\TagTools\MenuItems;
+use Elgg\Menu\MenuItems;
 
 class FilterMenu {
 	
