@@ -52,6 +52,10 @@ class RSSToBlog extends ElggObject {
 		$this->attributes['container_guid'] = $site->guid;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @see ElggObject::getDisplayName()
+	 */
 	public function getDisplayName() {
 		$title = parent::getDisplayName();
 		if (!empty($title)) {
