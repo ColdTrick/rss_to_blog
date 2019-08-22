@@ -2,7 +2,7 @@
 <plugin_manifest xmlns="http://www.elgg.org/plugin_manifest/1.8">
 	<name>RSS to Blog</name>
 	<author>ColdTrick IT Solutions</author>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<id>rss_to_blog</id>
 	<description>Import an RSS-feed into blogs</description>
 	<website>http://www.coldtrick.com/</website>

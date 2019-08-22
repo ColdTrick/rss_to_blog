@@ -1,6 +1,10 @@
 Version history
 ===============
 
+1.0.2 (2019-08-22):
+
+- several small chores/fixes
+
 1.0.1 (2019-05-02):
 
 - fixed: internal/external archive sorting
