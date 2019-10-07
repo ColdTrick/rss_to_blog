@@ -9,7 +9,7 @@ class FilterMenu {
 	/**
 	 * Add menu items to the blog tabs
 	 *
-	 * @param \Elgg\Hook $hook 'register', 'menu:filter:blog'
+	 * @param \Elgg\Hook $hook 'filter_tabs', 'blog'
 	 *
 	 * @return void|MenuItems
 	 */
