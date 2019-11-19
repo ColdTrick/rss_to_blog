@@ -2,8 +2,6 @@
 
 namespace ColdTrick\RssToBlog;
 
-use Elgg\Menu\MenuItems;
-
 class FilterMenu {
 	
 	/**
@@ -11,7 +9,7 @@ class FilterMenu {
 	 *
 	 * @param \Elgg\Hook $hook 'filter_tabs', 'blog'
 	 *
-	 * @return void|MenuItems
+	 * @return void|\ElggMenuItem[]
 	 */
 	public static function addTabs(\Elgg\Hook $hook) {
 		
@@ -19,7 +17,7 @@ class FilterMenu {
 			return;
 		}
 		
-		/* @var $result MenuItems */
+		/* @var $result \ElggMenuItem[] */
 		$result = $hook->getValue();
 		$page_owner = elgg_get_page_owner_entity();
 		$selected = $hook->getParam('filter_value', $hook->getParam('selected'));
@@ -44,7 +42,16 @@ class FilterMenu {
 			$route_params['guid'] = $page_owner->guid;
 			
 			// blog tools adds potential all link
-			$result->remove('collection:object:blog:group');
+			
+			// @var $menu_item \ElggMenuItem */
+			foreach ($result as $index => $menu_item) {
+				if ($menu_item->getName() !== 'collection:object:blog:group') {
+					continue;
+				}
+				
+				unset($result[$index]);
+				break;
+			}
 		} elseif(is_array($result)) {
 			// @var $menu_item \ElggMenuItem */
 			foreach ($result as $index => $menu_item) {
