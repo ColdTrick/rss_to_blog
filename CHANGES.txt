@@ -1,6 +1,10 @@
 Version history
 ===============
 
+1.0.3 (2019-11-26):
+
+- fixed: wrong handling of menu items in filter tabs
+
 1.0.2 (2019-08-22):
 
 - several small chores/fixes
