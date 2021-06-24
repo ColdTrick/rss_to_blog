@@ -26,11 +26,6 @@ return [
 	// settings
 	'rss_to_blog:settings:split_blogs' => "Add tabs to blog listings to only show internal / external blogs",
 	'rss_to_blog:settings:split_blogs:help' => "If enabled two tabs will be added to the blog listing pages to be able to only show internal or external blogs.",
-	'rss_to_blog:settings:proxy:title' => "RSS-feed reader settings",
-	'rss_to_blog:settings:proxy:host' => "Proxy host",
-	'rss_to_blog:settings:proxy:port' => "Proxy portnumber",
-	'rss_to_blog:settings:proxy:disable_ssl_verify' => "Disable SSL verification",
-	'rss_to_blog:settings:proxy:disable_ssl_verify:help' => "When enabled this will disable SSL certificate verification when fetching an RSS-feed",
 	
 	// edit form
 	'rss_to_blog:edit:feed_url' => "RSS-feed URL",

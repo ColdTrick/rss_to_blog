@@ -11,24 +11,15 @@ class Bootstrap extends DefaultPluginBootstrap {
 	 * {@inheritDoc}
 	 */
 	public function init() {
-		
 		$this->rewriteRoutes();
-		
-		// plugin hooks
-		$hooks = $this->elgg()->hooks;
-		$hooks->registerHandler('cron', 'all', __NAMESPACE__ . '\Cron::importBlogs');
-		$hooks->registerHandler('filter_tabs', 'blog', __NAMESPACE__ . '\FilterMenu::addTabs');
-		$hooks->registerHandler('register', 'menu:blog_archive', __NAMESPACE__ . '\BlogArchiveMenu::addArchive');
-		$hooks->registerHandler('register', 'menu:entity', __NAMESPACE__ . '\EntityMenu::rssToBlogEditLink');
-		$hooks->registerHandler('register', 'menu:entity', __NAMESPACE__ . '\EntityMenu::rssToBlogImportNow');
-		$hooks->registerHandler('register', 'menu:entity', __NAMESPACE__ . '\EntityMenu::rssToBlogRawData');
-		$hooks->registerHandler('register', 'menu:filter:blog/group', __NAMESPACE__ . '\FilterMenu::addTabs');
-		$hooks->registerHandler('register', 'menu:page', __NAMESPACE__ . '\PageMenu::registerAdmin');
-		$hooks->registerHandler('view_vars', 'object/elements/imprint/contents', __NAMESPACE__ . '\Views::addRssImprint');
-		$hooks->registerHandler('view_vars', 'resources/blog/filtered/group', __NAMESPACE__ . '\Views::validateGroupInternalPage');
 	}
 	
-	protected function rewriteRoutes() {
+	/**
+	 * Rewrite blog routes when internal and external blogs should be split
+	 *
+	 * @return void
+	 */
+	protected function rewriteRoutes(): void {
 		
 		if (!$this->plugin()->getSetting('split_blogs')) {
 			return;

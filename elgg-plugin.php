@@ -4,9 +4,19 @@ use ColdTrick\RssToBlog\Bootstrap;
 use Elgg\Router\Middleware\AjaxGatekeeper;
 use Elgg\Router\Middleware\AdminGatekeeper;
 
-define('RSS_TO_BLOG_ACCESS_GROUP', -20);
+if (!defined('RSS_TO_BLOG_ACCESS_GROUP')) {
+	define('RSS_TO_BLOG_ACCESS_GROUP', -20);
+}
 
 return [
+	'plugin' => [
+		'version' => '1.0.3',
+		'dependencies' => [
+			'blog' => [
+				'position' => 'after',
+			],
+		],
+	],
 	'bootstrap' => Bootstrap::class,
 	'entities' => [
 		[
@@ -21,6 +31,40 @@ return [
 		],
 		'rss_to_blog/import' => [
 			'access' => 'admin',
+		],
+	],
+	'hooks' => [
+		'cron' => [
+			'all' => [
+				'\ColdTrick\RssToBlog\Cron::importBlogs' => [],
+			],
+		],
+		'register' => [
+			'menu:blog_archive' => [
+				'\ColdTrick\RssToBlog\Menus\BlogArchive::addArchive' => [],
+			],
+			'menu:entity' => [
+				'\ColdTrick\RssToBlog\Menus\Entity::rssToBlogEditLink' => [],
+				'\ColdTrick\RssToBlog\Menus\Entity::rssToBlogImportNow' => [],
+				'\ColdTrick\RssToBlog\Menus\Entity::rssToBlogRawData' => [],
+			],
+			'menu:filter:filter' => [
+				'\ColdTrick\RssToBlog\Menus\Filter::addTabs' => [],
+			],
+			'menu:filter:blog/group' => [
+				'\ColdTrick\RssToBlog\Menus\Filter::addTabs' => [],
+			],
+			'menu:page' => [
+				'\ColdTrick\RssToBlog\Menus\Page::registerAdmin' => [],
+			],
+		],
+		'view_vars' => [
+			'object/elements/imprint/contents' => [
+				'\ColdTrick\RssToBlog\Views::addRssImprint' => [],
+			],
+			'resources/blog/filtered/group' => [
+				'\ColdTrick\RssToBlog\Views::validateGroupInternalPage' => [],
+			],
 		],
 	],
 	'routes' => [

@@ -24,7 +24,7 @@ class RSSToBlog extends ElggObject {
 	const SUBTYPE = 'rss_to_blog';
 	
 	/**
-	 * @var string subtype of this entity
+	 * @var string relationship between the blog and rss configuration
 	 */
 	const IMPORTED_RELATIONSHIP = 'imported_from';
 	

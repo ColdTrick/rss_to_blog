@@ -1,8 +1,8 @@
 <?php
 
-namespace ColdTrick\RssToBlog;
+namespace ColdTrick\RssToBlog\Menus;
 
-class PageMenu {
+class Page {
 	
 	/**
 	 * Add an admin menu item to the page menu

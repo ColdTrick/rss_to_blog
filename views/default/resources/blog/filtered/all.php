@@ -1,6 +1,6 @@
 <?php
 
-use Elgg\BadRequestException;
+use Elgg\Exceptions\Http\BadRequestException;
 
 $lower = elgg_extract('lower', $vars);
 $upper = elgg_extract('upper', $vars);

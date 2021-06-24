@@ -30,7 +30,7 @@ try {
 	}
 	
 	if (empty($content)) {
-		$content  = elgg_view_message('warning', elgg_echo('rss_to_blog:inspect:unable_to_parse'));
+		$content = elgg_view_message('warning', elgg_echo('rss_to_blog:inspect:unable_to_parse'));
 	}
 	
 } catch (InvalidArgumentException $e) {

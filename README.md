@@ -1,7 +1,7 @@
 RSS to Blog
 ===========
 
-![Elgg 3.0](https://img.shields.io/badge/Elgg-3.0-green.svg)
+![Elgg 4.0](https://img.shields.io/badge/Elgg-4.0-green.svg)
 [![Build Status](https://scrutinizer-ci.com/g/ColdTrick/rss_to_blog/badges/build.png?b=master)](https://scrutinizer-ci.com/g/ColdTrick/rss_to_blog/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ColdTrick/rss_to_blog/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ColdTrick/rss_to_blog/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/coldtrick/rss_to_blog/v/stable.svg)](https://packagist.org/packages/coldtrick/rss_to_blog)

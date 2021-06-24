@@ -1,11 +1,11 @@
 <?php
 
-namespace ColdTrick\RssToBlog;
+namespace ColdTrick\RssToBlog\Menus;
 
 use Elgg\Database\QueryBuilder;
 use Elgg\Menu\MenuItems;
 
-class BlogArchivemenu {
+class BlogArchive {
 	
 	/**
 	 * Register menu items to the blog archive menu

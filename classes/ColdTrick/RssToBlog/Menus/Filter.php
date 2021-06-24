@@ -1,23 +1,25 @@
 <?php
 
-namespace ColdTrick\RssToBlog;
+namespace ColdTrick\RssToBlog\Menus;
 
-class FilterMenu {
+use Elgg\Menu\MenuItems;
+
+class Filter {
 	
 	/**
 	 * Add menu items to the blog tabs
 	 *
-	 * @param \Elgg\Hook $hook 'filter_tabs', 'blog'
+	 * @param \Elgg\Hook $hook 'register', 'menu:filter:filter'
 	 *
-	 * @return void|\ElggMenuItem[]
+	 * @return void|MenuItems
 	 */
 	public static function addTabs(\Elgg\Hook $hook) {
 		
-		if (!elgg_get_plugin_setting('split_blogs', 'rss_to_blog')) {
+		if (!elgg_in_context('blog') || !elgg_get_plugin_setting('split_blogs', 'rss_to_blog')) {
 			return;
 		}
 		
-		/* @var $result \ElggMenuItem[] */
+		/* @var $result MenuItems */
 		$result = $hook->getValue();
 		$page_owner = elgg_get_page_owner_entity();
 		$selected = $hook->getParam('filter_value', $hook->getParam('selected'));
@@ -40,29 +42,11 @@ class FilterMenu {
 			
 			$section = 'group';
 			$route_params['guid'] = $page_owner->guid;
-			
-			// blog tools adds potential all link
-			
-			// @var $menu_item \ElggMenuItem */
-			foreach ($result as $index => $menu_item) {
-				if ($menu_item->getName() !== 'collection:object:blog:group') {
-					continue;
-				}
-				
-				unset($result[$index]);
-				break;
-			}
-		} elseif(is_array($result)) {
-			// @var $menu_item \ElggMenuItem */
-			foreach ($result as $index => $menu_item) {
-				if ($menu_item->getName() !== 'all') {
-					continue;
-				}
-				
-				unset($result[$index]);
-				break;
-			}
 		}
+		
+		// remove 'all' tab
+		$result->remove('all');
+		$result->remove('collection:object:blog:group'); // added by blog_tools
 		
 		$result[] = \ElggMenuItem::factory([
 			'name' => 'internal',

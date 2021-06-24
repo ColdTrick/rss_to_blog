@@ -1,6 +1,6 @@
 <?php
 
-use Elgg\BadRequestException;
+use Elgg\Exceptions\Http\BadRequestException;
 
 $group_guid = elgg_extract('guid', $vars, elgg_extract('group_guid', $vars)); // group_guid for BC
 $lower = elgg_extract('lower', $vars);
@@ -11,6 +11,9 @@ if (!in_array($filter, ['internal', 'external'])) {
 }
 
 elgg_entity_gatekeeper($group_guid, 'group');
+elgg_group_tool_gatekeeper('blog', $group_guid);
+
+/* @var $group \ElggGroup */
 $group = get_entity($group_guid);
 
 elgg_register_title_button('blog', 'add', 'object', 'blog');

@@ -62,17 +62,25 @@ class RSSReader {
 		
 		// check for proxy settings
 		$curl_options = [];
-		$proxy_host = elgg_get_plugin_setting('proxy_host', 'rss_to_blog');
+		
+		$proxy_config = (array) elgg_get_config('proxy', []);
+		$proxy_host = elgg_extract('host', $proxy_config);
 		if (!empty($proxy_host)) {
 			$curl_options[CURLOPT_PROXY] = $proxy_host;
 		}
-		$proxy_port = (int) elgg_get_plugin_setting('proxy_port', 'rss_to_blog');
+		$proxy_port = (int) elgg_extract('port', $proxy_config);
 		if (!empty($proxy_port)) {
 			$curl_options[CURLOPT_PROXYPORT] = $proxy_port;
 		}
-		$disable_ssl = (bool) elgg_get_plugin_setting('proxy_disable_ssl_verify', 'rss_to_blog');
-		if ($disable_ssl) {
+		$verify_ssl = (bool) elgg_extract('verify_ssl', $proxy_config, true);
+		if (!$verify_ssl) {
 			$curl_options[CURLOPT_SSL_VERIFYPEER] = false;
+		}
+		
+		$username = elgg_extract('username', $proxy_config);
+		$password = elgg_extract('password', $proxy_config);
+		if (!empty($username) && !empty($password)) {
+			$curl_options[CURLOPT_PROXYUSERPWD] = "{$username}:{$password}";
 		}
 		
 		// set additional curl options

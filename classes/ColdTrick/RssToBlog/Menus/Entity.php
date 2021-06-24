@@ -1,8 +1,8 @@
 <?php
 
-namespace ColdTrick\RssToBlog;
+namespace ColdTrick\RssToBlog\Menus;
 
-class EntityMenu {
+class Entity {
 	
 	/**
 	 * Change the edit link to a lighbox
