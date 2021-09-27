@@ -14,8 +14,7 @@
 		"simplepie/simplepie": "~1.5.0"
 	},
 	"require-dev": {
-		"coldtrick/sniffs": "dev-master",
-		"coldtrick/releases": "dev-master"
+		"coldtrick/sniffs": "dev-master"
 	},
 	"conflict": {
 		"elgg/elgg": "<4.0"
