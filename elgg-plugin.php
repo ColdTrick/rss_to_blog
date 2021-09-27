@@ -10,7 +10,7 @@ if (!defined('RSS_TO_BLOG_ACCESS_GROUP')) {
 
 return [
 	'plugin' => [
-		'version' => '1.0.3',
+		'version' => '2.0',
 		'dependencies' => [
 			'blog' => [
 				'position' => 'after',

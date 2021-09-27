@@ -1,6 +1,10 @@
 Version history
 ===============
 
+2.0 (2021-09-27):
+
+- changed: updated for Elgg 4.0
+
 1.0.3 (2019-11-26):
 
 - fixed: wrong handling of menu items in filter tabs
