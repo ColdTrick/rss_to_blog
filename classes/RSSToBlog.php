@@ -61,7 +61,7 @@ class RSSToBlog extends ElggObject {
 		if (!empty($title)) {
 			return $title;
 		}
-		return $this->feed_url;
+		return (string) $this->feed_url;
 	}
 	
 	/**
